@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="siteTitle">iMersDocs | Asset OS</title>
+    
+    <!-- Load Tailwind CSS secara eksternal untuk styling modern yang cepat -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts: Poppins untuk estetika profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome v6 untuk library ikon yang konsisten -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style id="dynamicStyles">
+        :root {
+            --brand-primary: #4F46E5;
+            --brand-secondary: #111827;
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #F9FAFB; 
+            color: var(--brand-secondary) !important;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease;
+        }
+
+        /* OVERRIDE TAILWIND: Memaksa warna dari Google Sheet muncul di judul & teks */
+        .text-gray-900, h1, h2, h3, h4, h5, h6, #headerTitle { 
+            color: var(--brand-secondary) !important; 
+        }
+
+        /* Warna Ikon & Background Utama */
+        .text-primary { color: var(--brand-primary) !important; }
+        .bg-primary { background-color: var(--brand-primary) !important; }
+
+        /* Support Teks Gradient */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent !important;
+            display: inline-block;
+        }
+    
+        /* OVERRIDE TAILWIND: Biar warna di Google Sheet mengalahkan warna default CSS */
+        .text-gray-900 { color: var(--brand-secondary) !important; }
+        .text-primary { color: var(--brand-primary) !important; }
+        .bg-primary { background-color: var(--brand-primary) !important; }
+        
+        /* Sidebar link active background (Soft Orange) */
+        .sidebar-link.active { 
+            background-color: rgba(255, 90, 31, 0.1) !important; 
+            color: var(--brand-primary) !important; 
+        }
+
+        .saas-card:hover { 
+            border-color: var(--brand-primary) !important; 
+        }
+
+        /* Styling Sidebar Kiri */
+        .sidebar { 
+            width: 280px; 
+            border-right: 1px solid #F3F4F6; 
+            background: white; 
+            z-index: 50; 
+            flex-shrink: 0; 
+        }
+        
+        .sidebar-link {
+            display: flex; 
+            align-items: center; 
+            padding: 10px 16px; 
+            margin: 4px 12px;
+            border-radius: 10px; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            color: #4B5563;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer;
+        }
+        
+        .sidebar-link:hover { 
+            background-color: #F3F4F6; 
+            color: #111827; 
+        }
+        
+        .sidebar-link.active { 
+            background-color: #EEF2FF; 
+            color: var(--brand-primary); 
+        }
+
+        .alphabet-label {
+            font-size: 10px; 
+            font-weight: 700; 
+            color: #9CA3AF;
+            padding: 24px 28px 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+        }
+
+        /* Area Konten Utama */
+        .content-area { 
+            flex: 1; 
+            height: 100vh; 
+            overflow-y: auto; 
+            background-color: #FBFCFD; 
+            scroll-behavior: smooth;
+        }
+
+        /* Card Produk & Folder */
+        .saas-card {
+            background: #FFFFFF; 
+            border: 1px solid #E5E7EB; 
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer;
+        }
+        
+        .saas-card:hover { 
+            border-color: var(--brand-primary); 
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.15); 
+            transform: translateY(-4px); 
+        }
+
+        /* Card Konten Aset */
+        .asset-card { 
+            background: #FFFFFF; 
+            border: 1px solid #E5E7EB; 
+            border-radius: 16px; 
+            padding: 24px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        /* Efek Hover Glow Premium Berwarna */
+        .asset-card:hover {
+            border-color: var(--brand-primary);
+            box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.3);
+            transform: translateY(-8px);
+            background: white;
+        }
+
+        /* Input Custom Styling */
+        .saas-input {
+            width: 100%; 
+            background: #FFFFFF; 
+            border: 1px solid #D1D5DB; 
+            border-radius: 10px;
+            padding: 10px 14px; 
+            font-size: 0.875rem; 
+            outline: none; 
+            transition: all 0.2s;
+        }
+        
+        .saas-input:focus { 
+            border-color: #4F46E5; 
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); 
+        }
+
+        /* Tombol Utama - Gradient Indigo Purple Blue */
+        .btn-black {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #3b82f6 100%) !important; 
+            color: white !important; 
+            padding: 12px 20px;
+            border-radius: 10px; 
+            font-size: 0.875rem; 
+            font-weight: 600; 
+            transition: all 0.3s ease;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-black:hover { 
+            opacity: 0.9; 
+            transform: translateY(-1px); 
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-black:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Mobile Navigation Bar Styling */
+        .mobile-nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            border-top: 1px solid #F3F4F6; display: flex; justify-content: space-around;
+            align-items: center; z-index: 100; padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .mobile-nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: #9CA3AF; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+
+        .mobile-nav-item i {
+            font-size: 18px; transition: all 0.2s;
+        }
+
+        /* Utility Classes */
+        .text-primary { color: var(--brand-primary); }
+        .bg-primary { background-color: var(--brand-primary); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(5px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .animate-in { animation: fadeIn 0.4s ease-out forwards; }
+
+        /* Loading Screen */
+        #loading-overlay {
+            position: fixed; inset: 0; background: white; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        /* Badge Sub-Kategori */
+        .sub-cat-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: white; border: 1px solid #E5E7EB; padding: 6px 12px;
+            border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--brand-primary);
+            text-transform: uppercase; letter-spacing: 0.02em; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-footer {
+            padding: 20px 24px; 
+            border-top: 1px solid #F3F4F6;
+            margin-top: auto; 
+            background: #FAFBFC;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .content-area { padding-bottom: 80px; }
+        }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Animasi Sinkronisasi Database -->
+    <div id="loading-overlay">
+        <div class="flex flex-col items-center gap-4">
+            <div class="w-10 h-10 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
+            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Mensinkronkan Workspace...</p>
+        </div>
+    </div>
+
+    <!-- SIDEBAR NAVIGATION - LOGIC: hidden (mobile) md:flex (desktop) -->
+    <aside class="sidebar hidden md:flex flex-col h-full">
+        <!-- Logo Brand & Nama Interaktif -->
+        <div class="p-8 flex items-center gap-3 cursor-pointer group" id="logoBtn">
+            <div id="brandLogoContainer" class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shadow-lg group-active:scale-90 transition-all overflow-hidden">
+                <!-- SVG Ikon diisi secara dinamis via JS -->
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-gray-900" id="brandNameDisplay">Loading...</h1>
+        </div>
+
+        <div class="flex-1 overflow-y-auto no-scrollbar">
+            <div class="px-6 mb-2">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-2">Main Menu</p>
+            </div>
+            
+            <div onclick="showHome()" class="sidebar-link active" id="navHome">
+                <span id="overviewIconContainer" class="mr-3 w-4 flex justify-center text-sm"></span>
+                <span id="overviewTextDisplay">Overview</span>
+            </div>
+
+            <div id="sidebarProductList"></div>
+
+            <!-- Stealth Console Menu (Hanya Admin) -->
+            <div id="adminMenu" class="hidden mt-8 border-t border-gray-100 pt-6 pb-6 animate-in">
+                <div class="px-6 mb-2">
+                    <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest px-2">Admin Console</p>
+                </div>
+                
+                <div onclick="checkAdmin('asset')" class="sidebar-link" id="navAsset">
+                    <i class="fa-solid fa-file-pen mr-3 w-4 text-emerald-500"></i> Manage Assets
+                </div>
+                
+                <div onclick="checkAdmin('product')" class="sidebar-link" id="navProduct">
+                    <i class="fa-solid fa-layer-group mr-3 w-4 text-pink-500"></i> Manage Products
+                </div>
+                
+                <div onclick="logoutAdmin()" class="sidebar-link text-gray-400 hover:text-red-500 mt-4">
+                    <i class="fa-solid fa-power-off mr-3 w-4"></i> Lock Console
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Sidebar -->
+        <div class="sidebar-footer">
+            <div id="footerDisplay" class="text-[9px] font-medium text-gray-400 leading-relaxed"></div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="content-area flex flex-col">
+        
+        <!-- Header & Navigasi Breadcrumbs -->
+        <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 px-10 py-5 flex justify-between items-center sticky top-0 z-40">
+            <div class="flex items-center gap-4">
+                <h2 class="text-lg font-bold text-gray-900 cursor-pointer" id="headerTitle" onclick="showHome()">Library</h2>
+                
+                <div id="breadcrumb" class="hidden flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[8px] text-gray-300"></i>
+                    <span id="breadcrumbProduct" class="text-xs text-gray-500 font-medium px-2 py-1 bg-gray-50 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">Product</span>
+                    
+                    <div id="breadcrumbCategoryContainer" class="hidden flex items-center gap-2">
+                        <i class="fa-solid fa-chevron-right text-[8px] text-gray-300"></i>
+                        <span id="breadcrumbCategory" class="text-xs text-indigo-600 font-semibold px-2 py-1 bg-indigo-50 rounded-md">Category</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Area -->
+            <div class="flex items-center gap-6">
+                <div class="relative w-64 group">
+                    <input type="text" id="globalSearch" placeholder="Cari aset..." class="saas-input pl-10 text-xs bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 py-2.5">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Area Rendering Konten Dinamis -->
+        <div id="viewArea" class="p-10 animate-in">
+            <!-- Diisi via JS -->
+        </div>
+
+    </main>
+
+    <!-- MOBILE NAVIGATION BAR (Muncul hanya di HP) -->
+    <nav class="mobile-nav-bar md:hidden">
+        <div onclick="showHome()" class="mobile-nav-item">
+            <i class="fa-solid fa-house text-indigo-500"></i>
+            <span>Home</span>
+        </div>
+        <div onclick="showHome()" class="mobile-nav-item">
+            <i class="fa-solid fa-boxes-stacked text-pink-500"></i>
+            <span>Vault</span>
+        </div>        
+    </nav>
+
+    <!-- ADMIN AUTH MODAL -->
+    <div id="adminAuth" class="hidden fixed inset-0 z-[100] bg-gray-900/40 backdrop-blur-sm flex items-center justify-center p-6">
+        <div class="bg-white p-10 w-full max-w-sm rounded-2xl shadow-2xl">
+            <div class="w-14 h-14 bg-indigo-50 rounded-xl mx-auto mb-6 flex items-center justify-center">
+                <i class="fa-solid fa-shield-halved text-indigo-600 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-center text-gray-900">Verify Access</h3>
+            <p class="text-xs text-gray-400 mb-8 text-center">Masukkan Master Key untuk membuka Admin Console.</p>
+            <input type="password" id="adminPass" placeholder="••••••••" class="saas-input text-center tracking-[1em] mb-8 font-black text-lg py-3">
+            <div class="flex gap-4">
+                <button onclick="closeAuth()" class="flex-1 py-3 text-xs font-bold text-gray-400 uppercase tracking-widest">Batal</button>
+                <button onclick="loginAdmin()" class="flex-1 btn-black shadow-xl">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-24 md:bottom-10 right-10 z-[200] opacity-0 pointer-events-none transition-all duration-500">
+        <div class="bg-indigo-600 text-white px-6 py-3 rounded-xl flex items-center gap-3 shadow-2xl border border-white/10">
+            <i class="fa-solid fa-circle-check text-white"></i>
+            <span id="toastMsg" class="text-xs font-semibold">Teks berhasil disalin!</span>
+        </div>
+    </div>
+
+    <!-- HTML PREVIEW MODAL -->
+    <div id="htmlPreview" class="hidden fixed inset-0 z-[150] bg-gray-900/50 backdrop-blur-md flex items-center justify-center p-12">
+        <div class="bg-white w-full max-w-6xl h-full rounded-3xl overflow-hidden flex flex-col shadow-2xl border border-gray-100">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h4 class="font-bold text-xs tracking-widest text-indigo-600 uppercase">Interactive Preview</h4>
+                <button onclick="closePreview()" class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center transition-colors hover:bg-gray-100"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <iframe id="previewFrame" class="flex-1 w-full border-none"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxxi-CuUu-jaXm5XN8pVl9xqQIHsBTHzPCu72clX210iTxaaFXc7yfh5R2uKXXTzFa3/exec';
+        let db = { assets: [], products: [], settings: {} };
+        let adminPass = '', clicks = 0, activeView = 'home', currentSilo = '', currentCategory = '';
+
+        /**
+         * Logic White Label Sanitizer: Membersihkan tanda kutip manual di sel Google Sheet
+         */
+        function cleanSetting(val) {
+            if (!val) return "";
+            let cleaned = val.toString().trim();
+            if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
+                cleaned = cleaned.substring(1, cleaned.length - 1);
+            }
+            return cleaned.trim();
+        }
+
+        function cleanColor(val) {
+            const cleaned = cleanSetting(val);
+            const hexMatch = cleaned.match(/#[0-9A-Fa-f]{6}/);
+            return hexMatch ? hexMatch[0] : cleaned;
+        }
+
+        function getIconHTML(val, className = "") {
+            const rawVal = cleanSetting(val);
+            if (!rawVal) return "";
+            if (rawVal.startsWith('http')) return `<img src="${rawVal}" class="${className} object-contain" />`;
+            return `<i class="${rawVal} ${className}"></i>`;
+        }
+
+        /**
+         * Fetch Database utama dengan error logging yang lebih informatif
+         */
+        async function fetchDB() {
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error(`HTTP Error! Status: ${res.status}`);
+                const json = await res.json();
+                if(json.status === 'success') {
+                    db = json.data;
+                    applySettings();
+                    renderSidebar();
+                    renderByView();
+                }
+                document.getElementById('loading-overlay').style.display = 'none';
+            } catch (e) { 
+                console.error('Fetch Error:', e); 
+                const overlay = document.getElementById('loading-overlay');
+                if(overlay) overlay.innerHTML = `<div class="p-10 text-center"><p class="text-red-500 font-bold mb-2">Fetch Error: ${e.message}</p><p class="text-xs text-gray-400">Pastikan URL API Apps Script sudah benar dan dipublish sebagai 'Anyone'.</p></div>`;
+            }
+        }
+
+        function applySettings() {
+
+    const s = db.settings;
+
+    if (!s) return;
+
+    const color1 = cleanColor(s.brand_color_1);
+
+    const rawColor2 = cleanSetting(s.brand_color_2) || '';
+
+    const root = document.documentElement;
+
+    const brandDisplay =
+        document.getElementById('brandNameDisplay');
+
+    /* PRIMARY */
+    if (color1) {
+
+        root.style.setProperty(
+            '--brand-primary',
+            color1
+        );
+
+    }
+
+    /* DEFAULT */
+    root.style.setProperty(
+        '--brand-secondary',
+        '#111827'
+    );
+
+    /* RESET STYLE */
+    brandDisplay.classList.remove('gradient-text');
+
+    brandDisplay.style.backgroundImage = 'none';
+
+    brandDisplay.style.webkitTextFillColor = '';
+
+    brandDisplay.style.color = '';
+
+    /* =========================
+       GRADIENT
+    ========================= */
+
+    if (
+        rawColor2 &&
+        rawColor2.includes('linear-gradient')
+    ) {
+
+        brandDisplay.classList.add('gradient-text');
+
+        brandDisplay.style.backgroundImage =
+            rawColor2;
+
+        brandDisplay.style.backgroundClip =
+            'text';
+
+        brandDisplay.style.webkitBackgroundClip =
+            'text';
+
+        brandDisplay.style.webkitTextFillColor =
+            'transparent';
+
+        brandDisplay.innerHTML =
+            cleanSetting(s.brand_name)
+            || "iMersDocs";
+
+    }
+
+    /* =========================
+       HTML CUSTOM
+    ========================= */
+
+    else if (
+        rawColor2 &&
+        rawColor2.includes('<')
+    ) {
+
+        const hexMatch =
+            rawColor2.match(/#[0-9A-Fa-f]{6}/);
+
+        const themeColor =
+            hexMatch
+            ? hexMatch[0]
+            : '#111827';
+
+        root.style.setProperty(
+            '--brand-secondary',
+            themeColor
+        );
+
+        brandDisplay.innerHTML = rawColor2;
+
+    }
+
+    /* =========================
+       NORMAL HEX
+    ========================= */
+
+    else {
+
+        root.style.setProperty(
+            '--brand-secondary',
+            rawColor2 || '#111827'
+        );
+
+        brandDisplay.style.color =
+            rawColor2 || '#111827';
+
+        brandDisplay.innerHTML =
+            cleanSetting(s.brand_name)
+            || "iMersDocs";
+    }
+
+    /* TITLE */
+    document.title =
+        cleanSetting(s.brand_name)
+        || "Asset OS";
+
+    /* LOGO */
+    const logoContainer =
+        document.getElementById(
+            'brandLogoContainer'
+        );
+
+    if (logoContainer) {
+
+        logoContainer.style.backgroundColor =
+            color1;
+
+        logoContainer.innerHTML =
+            getIconHTML(
+                s.brand_logo_icon,
+                "w-6 h-6 text-white"
+            );
+    }
+
+    /* FOOTER */
+    document.getElementById(
+        'footerDisplay'
+    ).innerHTML =
+        cleanSetting(s.footer_text)
+        || "";
+}
+        // --- TIERED NAVIGATION & GRID ENGINE ---
+
+        function renderHome() {
+            activeView = 'home'; 
+            updateNav('navHome');
+            if(document.getElementById('globalSearch')) document.getElementById('globalSearch').value = ''; 
+            
+            document.getElementById('headerTitle').innerText = cleanSetting(db.settings.menu_overview_text) || "Dashboard";
+            document.getElementById('breadcrumb').classList.add('hidden');
+
+            const html = `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 animate-in">
+                    ${db.products.map(p => {
+                        const count = db.assets.filter(a => a.product === p.name).length;
+                        return `
+                            <div onclick="openVault('${p.name}')" class="saas-card p-10 flex flex-col h-full group">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-8 shadow-sm group-hover:scale-110 transition-transform" style="background: ${cleanColor(p.color) || 'var(--brand-primary)'}">
+                                    ${getIconHTML(p.icon, "text-lg")}
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-2 uppercase tracking-tight">${p.name}</h4>
+                                <p class="text-xs text-gray-400 mb-10 leading-relaxed flex-1">${p.desc || 'No description'}</p>
+                                <div class="flex justify-between items-center mt-auto pt-6 border-t border-gray-50">
+                                    <span class="text-[10px] font-bold uppercase text-primary tracking-widest">${count} Aset Ready</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px] text-gray-300 transition-transform group-hover:translate-x-1"></i>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            document.getElementById('viewArea').innerHTML = html;
+        }
+
+        function openVault(name) {
+            activeView = 'categories'; currentSilo = name; updateNav(`side-${name}`);
+            if(document.getElementById('globalSearch')) document.getElementById('globalSearch').value = ''; 
+            
+            document.getElementById('headerTitle').innerText = name;
+            document.getElementById('breadcrumb').classList.remove('hidden');
+            document.getElementById('breadcrumbProduct').innerText = name;
+            document.getElementById('breadcrumbProduct').onclick = () => openVault(name);
+            document.getElementById('breadcrumbCategoryContainer').classList.add('hidden');
+
+            const prodAssets = db.assets.filter(a => a.product === name);
+            const categories = [...new Set(prodAssets.map(a => a.category))];
+
+            if(categories.length === 0) {
+                document.getElementById('viewArea').innerHTML = `<div class="py-40 text-center text-gray-300 font-bold uppercase animate-in tracking-widest">Silo ini masih kosong.</div>`;
+                return;
+            }
+
+            const html = `
+                <div class="mb-8 animate-in">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Pilih Kategori Aset</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        ${categories.map(cat => {
+                            const count = prodAssets.filter(a => a.category === cat).length;
+                            return `
+                                <div onclick="openCategory('${name}', '${cat}')" class="saas-card p-8 flex items-center justify-between group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:text-primary group-hover:bg-indigo-50 transition-all">
+                                            <i class="fa-solid fa-folder-open text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-900 uppercase tracking-tight text-sm">${cat}</h5>
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">${count} Items</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-200 group-hover:text-primary transition-all"></i>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('viewArea').innerHTML = html;
+        }
+
+        function openCategory(prodName, catName) {
+            activeView = 'assets'; currentSilo = prodName; currentCategory = catName;
+            if(document.getElementById('globalSearch')) document.getElementById('globalSearch').value = ''; 
+
+            document.getElementById('breadcrumbCategoryContainer').classList.remove('hidden');
+            document.getElementById('breadcrumbCategory').innerText = catName;
+
+            const assets = db.assets.filter(a => a.product === prodName && a.category === catName);
+            const subGroups = [...new Set(assets.map(a => a.sub_category || 'GENERAL'))];
+
+            // GRID UPDATED: Menyamakan responsivitas dengan halaman Home
+            let html = `
+    <div class="animate-in grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 items-start">
+        ${subGroups.map(sub => `
+            <div class="flex flex-col gap-4">
+
+                <div class="sub-cat-badge w-fit">
+                    <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                    ${sub}
+                </div>
+
+                <div class="flex flex-col gap-5">
+
+                    ${assets.filter(a => (a.sub_category || 'GENERAL') === sub).map(item => `
+
+                        <div class="asset-card flex flex-col group shadow-sm border-gray-100">
+
+                            ${item.image_url ? `
+                                <div class="mb-6">
+
+                                    <!-- IMAGE -->
+                                    <img 
+                                        src="${item.image_url}" 
+                                        class="w-full aspect-video object-cover rounded-xl border border-gray-50 shadow-sm mb-3"
+                                        onerror="this.style.display='none'"
+                                    >
+
+                                    <!-- IMAGE ACTION -->
+                                    <div class="grid grid-cols-2 gap-2">
+
+                                        <!-- COPY URL -->
+                                        <button
+                                            onclick="copyToClip('${item.image_url}')"
+                                            class="bg-indigo-500 text-white py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition"
+                                        >
+                                            <i class="fa-solid fa-copy mr-1"></i>
+                                            Salin URL
+                                        </button>
+
+                                        <!-- DOWNLOAD BUTTON UPDATED -->
+                                        <button
+                                            onclick="downloadImage('${item.image_url}','${item.title}')"
+                                            class="bg-emerald-500 text-white py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition"
+                                        >
+                                            <i class="fa-solid fa-download mr-1"></i>
+                                            Download
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            ` : ''}
+
+                            <!-- TITLE -->
+                            <h6 class="font-bold text-gray-900 text-base leading-tight mb-4 uppercase tracking-tight">
+                                ${item.title}
+                            </h6>
+
+                            <!-- CONTENT -->
+                            <div class="bg-gray-50 border border-gray-100 rounded-xl p-5 text-[11px] leading-relaxed text-gray-500 mb-8 flex-1 whitespace-pre-line font-medium max-h-48 overflow-y-auto no-scrollbar">
+                                ${item.content}
+                            </div>
+
+                            <!-- ACTION -->
+                            <div class="flex gap-2">
+
+                                <!-- COPY TEXT -->
+                                <button 
+                                    type="button"
+                                    onclick="copyToClip(\`${item.content.replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)"
+                                    class="flex-1 btn-black text-[10px] uppercase tracking-widest transition-transform active:scale-95"
+                                >
+                                    Salin Teks
+                                </button>
+
+                                <!-- HTML PREVIEW -->
+                                ${item.content.includes('<') ? `
+                                    <button 
+                                        type="button"
+                                        onclick="previewHtml(\`${item.content.replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)"
+                                        class="w-12 h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:text-primary transition-all"
+                                    >
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </button>
+                                ` : ''}
+
+                            </div>
+
+                        </div>
+
+                    `).join('')}
+
+                </div>
+            </div>
+        `).join('')}
+    </div>
+`;
+
+document.getElementById('viewArea').innerHTML = html;
+        }
+
+        // --- CORE UI LOGIC ---
+
+        function renderSidebar() {
+            if (!db.products) return;
+            const sorted = [...db.products].sort((a,b) => a.name.localeCompare(b.name));
+            const grouped = sorted.reduce((acc, p) => { 
+                const letter = p.name[0].toUpperCase(); 
+                if(!acc[letter]) acc[letter] = []; 
+                acc[letter].push(p); 
+                return acc; 
+            }, {});
+
+            let html = '';
+            Object.keys(grouped).sort().forEach(letter => {
+                html += `<div class="alphabet-label">${letter}</div>`;
+                grouped[letter].forEach(p => {
+                    html += `
+                    <div onclick="openVault('${p.name}')" class="sidebar-link" id="side-${p.name}">
+                        <span class="mr-3 w-4 flex justify-center opacity-50" style="color: ${cleanColor(p.color) || 'var(--brand-primary)'}">
+                            ${getIconHTML(p.icon)}
+                        </span> 
+                        ${p.name}
+                    </div>`;
+                });
+            });
+            document.getElementById('sidebarProductList').innerHTML = html;
+        }
+
+        function updateNav(activeId) {
+            document.querySelectorAll('.sidebar-link').forEach(n => n.classList.remove('active'));
+            const active = document.getElementById(activeId);
+            if(active) active.classList.add('active');
+        }
+
+        document.getElementById('logoBtn').onclick = () => {
+            const secretTarget = parseInt(cleanSetting(db.settings.admin_click_count)) || 5;
+            if(++clicks >= secretTarget) {
+                document.getElementById('adminAuth').classList.remove('hidden');
+                clicks = 0;
+            }
+        };
+        function closeAuth() { document.getElementById('adminAuth').classList.add('hidden'); }
+
+        async function loginAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            const res = await fetch(API_URL, { method:'POST', body: JSON.stringify({action:'VERIFY', password:pass}) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                adminPass = pass;
+                closeAuth();
+                document.getElementById('adminMenu').classList.remove('hidden');
+                renderByView();
+            } else { alert('Master Key Salah!'); }
+        }
+
+        function logoutAdmin() {
+            adminPass = '';
+            document.getElementById('adminMenu').classList.add('hidden');
+            renderHome();
+        }
+
+        function checkAdmin(view) {
+            if(!adminPass) document.getElementById('adminAuth').classList.remove('hidden');
+            else { activeView = view; renderByView(); }
+        }
+
+        function renderAdminAssets() {
+            updateNav('navAsset'); 
+            document.getElementById('headerTitle').innerText = "Editor Konten"; 
+            document.getElementById('breadcrumb').classList.add('hidden');
+            
+            let html = `
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 animate-in">
+                    <div class="xl:col-span-4">
+                        <div class="bg-white border border-gray-100 p-8 rounded-2xl shadow-sm sticky top-5">
+                            <h4 class="font-bold text-gray-900 mb-8 uppercase text-[10px] tracking-widest border-b border-gray-50 pb-4">Form Input Konten</h4>
+                            <form id="assetForm" onsubmit="handleAssetSubmit(event)" class="space-y-5">
+                                <input type="hidden" id="assetId">
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Pilih Produk</label>
+                                    <select id="fAssetProduct" class="saas-input font-bold">
+                                        ${db.products.map(p=>`<option value="${p.name}">${p.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="space-y-1.5">
+                                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Kategori Utama</label>
+                                        <input type="text" id="fAssetCat" placeholder="Email, WA, Banner..." class="saas-input">
+                                    </div>
+                                    <div class="space-y-1.5">
+                                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Sub-Kategori</label>
+                                        <input type="text" id="fAssetSub" placeholder="Opsional" class="saas-input">
+                                    </div>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Judul / Headline</label>
+                                    <input type="text" id="fAssetTitle" placeholder="Misal: Promo Awal Bulan" class="saas-input">
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Isi Konten (HTML / Teks)</label>
+                                    <textarea id="fAssetContent" rows="8" placeholder="Paste konten di sini..." class="saas-input resize-none text-xs no-scrollbar"></textarea>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Media URL</label>
+                                    <input type="text" id="fAssetImg" placeholder="https://..." class="saas-input">
+                                </div>
+                                <button type="submit" id="assetBtn" class="w-full btn-black py-4 shadow-xl">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Publish ke Vault
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="xl:col-span-8 space-y-3">
+                        <p class="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-4">Database Snapshot (${db.assets.length} items)</p>
+                        ${db.assets.map(a => `
+                            <div class="bg-white border border-gray-100 p-6 rounded-xl flex justify-between items-center group transition-colors hover:border-primary">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-gray-300 group-hover:text-primary transition-colors">
+                                        <i class="fa-solid fa-file-code"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] font-bold text-primary uppercase tracking-widest">${a.product} • ${a.category}</p>
+                                        <h6 class="font-bold text-gray-900 text-sm tracking-tight">${a.title}</h6>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="editAsset('${a.id}')" class="w-9 h-9 bg-gray-50 text-gray-400 rounded-lg hover:text-primary hover:bg-indigo-50 transition-all"><i class="fa-solid fa-pen text-xs"></i></button>
+                                    <button type="button" onclick="deleteAsset('${a.id}')" class="w-9 h-9 bg-gray-50 text-gray-400 rounded-lg hover:text-red-500 transition-all"><i class="fa-solid fa-trash text-xs"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('viewArea').innerHTML = html;
+        }
+
+        function renderAdminProducts() {
+            updateNav('navProduct'); 
+            document.getElementById('headerTitle').innerText = "Manajemen Produk"; 
+            document.getElementById('breadcrumb').classList.add('hidden');
+            
+            let html = `
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 animate-in">
+                    <div class="xl:col-span-4">
+                        <div class="bg-white border border-gray-100 p-10 rounded-2xl shadow-sm sticky top-5">
+                            <h4 class="font-bold text-gray-900 mb-8 uppercase text-[10px] tracking-widest border-b border-gray-50 pb-4">Product Silo Management</h4>
+                            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-6">
+                                <input type="hidden" id="productId">
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Nama Produk</label>
+                                    <input type="text" id="fProdName" class="saas-input font-bold" placeholder="Misal: iMersWAMEL">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="space-y-1.5">
+                                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Ikon (FA / URL)</label>
+                                        <input type="text" id="fProdIcon" class="saas-input" placeholder="fa-solid fa-box">
+                                    </div>
+                                    <div class="space-y-1.5">
+                                        <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Warna Brand</label>
+                                        <input type="color" id="fProdColor" value="#4F46E5" class="saas-input" style="height:44px; padding:2px;">
+                                    </div>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Deskripsi Tagline</label>
+                                    <input type="text" id="fProdDesc" class="saas-input" placeholder="Keterangan singkat produk">
+                                </div>
+                                <button type="submit" id="prodBtn" class="w-full btn-black py-4 shadow-xl">
+                                    <i class="fa-solid fa-save"></i> Simpan Produk
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="xl:col-span-8 space-y-4">
+                        <p class="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-4">Silo Aktif (${db.products.length})</p>
+                        ${db.products.map(p => `
+                            <div class="bg-white border border-gray-100 p-8 rounded-2xl flex justify-between items-center group shadow-sm">
+                                <div class="flex items-center gap-6">
+                                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white overflow-hidden shadow-sm" style="background: ${cleanColor(p.color) || 'var(--brand-primary)'}">
+                                        ${getIconHTML(p.icon, "w-8 h-8")}
+                                    </div>
+                                    <div>
+                                        <h6 class="font-bold text-gray-900 text-lg uppercase tracking-tight">${p.name}</h6>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">${db.assets.filter(a=>a.product===p.name).length} Aset Terdaftar</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="editProduct('${p.id}')" class="w-10 h-10 bg-gray-50 text-gray-400 rounded-lg hover:text-primary transition-all"><i class="fa-solid fa-pen text-xs"></i></button>
+                                    <button type="button" onclick="deleteProduct('${p.id}')" class="w-10 h-10 bg-gray-50 text-gray-400 rounded-lg hover:text-red-500 transition-all"><i class="fa-solid fa-trash text-xs"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('viewArea').innerHTML = html;
+        }
+
+        // --- UTILS ---
+
+        async function handleAssetSubmit(e) {
+            e.preventDefault(); 
+            const btn = document.getElementById('assetBtn'); 
+            btn.innerText = 'Publishing...'; 
+            btn.disabled = true;
+            const payload = { 
+                action: document.getElementById('assetId').value ? 'UPDATE_ASSET' : 'ADD_ASSET', 
+                password: adminPass, 
+                id: document.getElementById('assetId').value, 
+                product: document.getElementById('fAssetProduct').value, 
+                category: document.getElementById('fAssetCat').value, 
+                sub_category: document.getElementById('fAssetSub').value, 
+                title: document.getElementById('fAssetTitle').value, 
+                image_url: document.getElementById('fAssetImg').value, 
+                content: document.getElementById('fAssetContent').value 
+            };
+            try { 
+                const res = await fetch(API_URL, {method:'POST', body: JSON.stringify(payload)}); 
+                const data = await res.json();
+                if(data.status === 'success') {
+                    await fetchDB(); 
+                    document.getElementById('assetForm').reset(); 
+                    document.getElementById('assetId').value = ''; 
+                    showToast("Aset berhasil disimpan!"); 
+                } else {
+                    alert('Error: ' + data.message);
+                }
+                btn.innerText = 'Publish ke Vault'; 
+                btn.disabled = false; 
+            } catch(e) { alert('Gagal simpan aset.'); btn.disabled = false; }
+        }
+
+        async function handleProductSubmit(e) {
+            e.preventDefault(); 
+            const btn = document.getElementById('prodBtn'); 
+            btn.innerText = 'Registering...'; 
+            btn.disabled = true;
+            const payload = { 
+                action: document.getElementById('productId').value ? 'UPDATE_PRODUCT' : 'ADD_PRODUCT', 
+                password: adminPass, 
+                id: document.getElementById('productId').value, 
+                name: document.getElementById('fProdName').value, 
+                icon: document.getElementById('fProdIcon').value, 
+                color: document.getElementById('fProdColor').value, 
+                desc: document.getElementById('fProdDesc').value 
+            };
+            try { 
+                const res = await fetch(API_URL, {method:'POST', body: JSON.stringify(payload)}); 
+                const data = await res.json();
+                if(data.status === 'success') {
+                    await fetchDB(); 
+                    document.getElementById('productForm').reset(); 
+                    document.getElementById('productId').value = ''; 
+                    showToast("Produk berhasil disimpan!"); 
+                }
+                btn.innerText = 'Simpan Produk'; 
+                btn.disabled = false; 
+            } catch(e) { alert('Gagal simpan produk.'); btn.disabled = false; }
+        }
+
+        async function deleteAsset(id) { if(confirm('Hapus aset ini secara permanen?')) { await fetch(API_URL, {method:'POST', body: JSON.stringify({action:'DELETE_ASSET', password:adminPass, id})}); await fetchDB(); showToast("Aset dihapus."); } }
+        async function deleteProduct(id) { if(confirm('Hapus produk? Data aset tidak akan hilang.')) { await fetch(API_URL, {method:'POST', body: JSON.stringify({action:'DELETE_PRODUCT', password:adminPass, id})}); await fetchDB(); showToast("Produk dihapus."); } }
+        
+        function editAsset(id) { 
+            if(!adminPass) { document.getElementById('adminAuth').classList.remove('hidden'); return; }
+            const a = db.assets.find(item => item.id == id); 
+            if(!a) return;
+            
+            activeView = 'asset';
+            renderAdminAssets(); 
+            
+            document.getElementById('assetId').value = a.id; 
+            document.getElementById('fAssetProduct').value = a.product; 
+            document.getElementById('fAssetCat').value = a.category; 
+            document.getElementById('fAssetSub').value = a.sub_category || ''; 
+            document.getElementById('fAssetTitle').value = a.title; 
+            document.getElementById('fAssetImg').value = a.image_url || ''; 
+            document.getElementById('fAssetContent').value = a.content; 
+            document.getElementById('assetBtn').innerHTML = '<i class="fa-solid fa-save"></i> Update Asset';
+            
+            document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function editProduct(id) { 
+            if(!adminPass) { document.getElementById('adminAuth').classList.remove('hidden'); return; }
+            const p = db.products.find(item => item.id == id); 
+            if(!p) return;
+
+            activeView = 'product';
+            renderAdminProducts(); 
+
+            document.getElementById('productId').value = p.id; 
+            document.getElementById('fProdName').value = p.name; 
+            document.getElementById('fProdIcon').value = p.icon; 
+            document.getElementById('fProdColor').value = p.color; 
+            document.getElementById('fProdDesc').value = p.desc || ''; 
+            document.getElementById('prodBtn').innerHTML = '<i class="fa-solid fa-save"></i> Update Silo'; 
+            
+            document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+function showToast(msg) {
+    document.getElementById('toastMsg').innerText = msg;
+    const t = document.getElementById('toast');
+    t.style.opacity = '1';
+    t.style.pointerEvents = 'auto';
+    setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.pointerEvents = 'none';
+    }, 3000);
+}
+
+function copyToClip(text) {
+    const el = document.createElement('textarea');
+    el.value = text;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showToast("Disalin ke clipboard!");
+}
+
+/**
+ * 🛡️ FUNGSI DOWNLOAD SAKTI (ANTI-OPEN WINDOW)
+ * Sudah diperbaiki untuk mendukung URL hosting sendiri dengan Blob Fetching
+ */
+async function downloadImage(url, filename = 'imersdocs-file') {
+    if (!url) return showToast("URL tidak tersedia!");
+    
+    try {
+        showToast("Sedang Mengunduh...");
+        
+        // 1. Ambil data biner gambar (Force Fetch)
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors', // Penting untuk download cross-origin
+            cache: 'no-cache'
+        });
+        
+        if (!response.ok) throw new Error("Gagal mengambil file dari server.");
+        
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        
+        // 2. Triger download via link hantu dengan Object URL
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        
+        // Deteksi extension dari URL asli agar file tidak rusak
+        const extension = url.split('.').pop().split(/\#|\?/)[0] || 'png';
+        link.download = `${filename}.${extension}`;
+        
+        document.body.appendChild(link);
+        link.click();
+        
+        // 3. Bersihkan memori browser
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+        
+        showToast("Download Berhasil!");
+    } catch(err) {
+        console.error("Download Error Detail:", err);
+        // Fallback terakhir: jika fetch gagal total (misal CORS hosting sangat ketat), baru buka tab
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        link.target = "_blank";
+        link.click();
+        showToast("Proses mengunduh...");
+    }
+}
+
+function previewHtml(code) {
+    document.getElementById('previewFrame').srcdoc = code;
+    document.getElementById('htmlPreview').classList.remove('hidden');
+}
+
+function closePreview() {
+    document.getElementById('htmlPreview').classList.add('hidden');
+}
+        
+        function renderByView() {
+            if(activeView === 'home') renderHome();
+            else if(activeView === 'categories') openVault(currentSilo);
+            else if(activeView === 'assets') openCategory(currentSilo, currentCategory);
+            else if(activeView === 'asset') renderAdminAssets();
+            else if(activeView === 'product') renderAdminProducts();
+        }
+
+        window.onload = function() {
+            fetchDB();
+            const passInput = document.getElementById('adminPass');
+            if(passInput) passInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') loginAdmin(); });
+        };
+        
+        function showHome() { activeView = 'home'; renderHome(); }
+    </script>
+</body>
+</html>
